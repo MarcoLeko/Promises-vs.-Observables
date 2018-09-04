@@ -1,0 +1,10 @@
+h1, h2, h3 {
+    font-family: Lato;
+}
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
