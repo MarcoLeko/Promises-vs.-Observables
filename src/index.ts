@@ -2,10 +2,15 @@ class LoginPanel {
 
     public appDiv: HTMLElement = document.getElementById('app');
 
+    constructor() {
+        this.setForm();
+        let btn = document.getElementById('loginButton');
+        btn.addEventListener('click', () => this.submitForm());
+    }
+
     public setForm(): void {
-        this.appDiv.innerHTML = `
-<form class="form-signin mt-5">
-  <img class="mb-4" src="assets/Hochschule_Muenchen_Logo.svg" alt="" width="250" height="auto">
+        this.appDiv.innerHTML = `<form id="loginForm" class="form-signin mt-5">
+  <img class="mb-4" src="assets/Hochschule_Muenchen_Logo.svg" width="250" height="auto">
       <div class="text-center">
       <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
       </div>
@@ -18,16 +23,22 @@ class LoginPanel {
           <input type="checkbox" value="remember-me"> Remember me
         </label>
       </div>
-      <button id="submitButton" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      <button id="loginButton" class="btn btn-lg btn-primary btn-block" type="button">Sign in</button>
     </form>
-`;
+    `;
     }
 
     public submitForm(): void {
-        console.log('Submitted!')
+        const elementFirst: HTMLElement = document.createElement('pre');
+        const elementSecond: HTMLElement = document.createElement('pre');
+
+        elementFirst.innerHTML = 'email: ' + document.getElementById('loginForm')[0].value;
+        document.getElementById('loginForm').appendChild(elementFirst);
+
+        elementSecond.innerHTML = 'password: ' + document.getElementById('loginForm')[1].value;
+        document.getElementById('loginForm').appendChild(elementSecond);
     }
 
 }
 
-const loginPanel = new LoginPanel();
-loginPanel.setForm();
+new LoginPanel();
