@@ -1,34 +1,28 @@
+// import * as firebase from 'firebase/app';
+// import {app} from './config';
+//
+// const auth: firebase.auth.Auth = app.auth();
+
+
 class LoginPanel {
 
-    public appDiv: HTMLElement = document.getElementById('app');
+    private username: string;
+    private password: string;
 
     constructor() {
-        this.setForm();
         const btn: HTMLElement = document.getElementById('registerButton');
-        btn.addEventListener('click', (event) => {
-            event.preventDefault();
-            this.submitForm()
-        });
-    }
-
-    public setForm(): void {
-        this.appDiv.innerHTML = `<form id="registerForm" class="form-signin mt-5">
-    <img class="mb-4" src="./assets/Hochschule_Muenchen_Logo.svg" width="250" height="auto">
-    <div class="text-center">
-        <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
-    </div>
-    <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control mt-1" placeholder="Password" required="">
-    <button id="registerButton" class="btn btn-lg btn-primary btn-block mt-2 mb-3" type="click">Sign in</button>
-</form>`;
+        btn.addEventListener('click', () => this.submitForm());
     }
 
     public submitForm(): void {
-        const username = document.getElementById('registerForm')[0].value;
-        console.log(username)
+        this.setUserCredentials();
+        console.log(this.username)
     };
+
+    private setUserCredentials() {
+        this.username = document.getElementById('registerForm')[0].value;
+        this.password = document.getElementById('registerForm')[1].value;
+    }
 }
 
-new LoginPanel();
+const loginPanel = new LoginPanel();
