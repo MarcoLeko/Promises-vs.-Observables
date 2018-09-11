@@ -7,8 +7,8 @@ module.exports = {
         './src/index.ts'
     ],
     output: {
-        path: path.resolve(__dirname, 'dist/js'),
-        filename: 'js/bundle.js'
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'bundle.js'
     },
     module: {
         rules: [
@@ -47,7 +47,10 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Promises vs. Observables',
-            filename: 'index.html'
+            output: {
+                path: path.resolve(__dirname, 'dist'),
+                filename: 'index.html'
+            }
         })
     ]
 };
