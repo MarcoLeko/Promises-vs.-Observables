@@ -1,6 +1,6 @@
 import './config';
 import './styles/styles.css';
-import img from '../assets/hm-logo.svg';
+import * as img from './assets/hm-logo.svg';
 import {app} from './config';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
@@ -27,8 +27,6 @@ class LoginPanel {
     constructor() {
         document.body.innerHTML = this.registerPanel;
         const image: HTMLImageElement = document.getElementById('hm-logo') as HTMLImageElement;
-        console.log(image)
-        console.log(img);
         image.src = img;
         const btn: HTMLElement = document.getElementById('registerButton');
         btn.addEventListener('click', () => this.submitForm());
