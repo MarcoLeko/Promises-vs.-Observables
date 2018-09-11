@@ -5,7 +5,6 @@
     "declaration": false,
     "sourceMap": true,
     "noImplicitAny": false,
-    "strictNullChecks": false,
     "typeRoots": [
       "node_modules/@types"
     ],
