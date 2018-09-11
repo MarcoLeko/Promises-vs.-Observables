@@ -1,13 +1,14 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 module.exports = {
+    mode: 'development',
     entry: [
-        './src/config.ts',
         './src/index.ts'
     ],
     output: {
-        filename: 'bundle.js',
-        path: path.resolve(__dirname, 'dist/js')
+        path: path.resolve(__dirname, 'dist/js'),
+        filename: 'js/bundle.js'
     },
     module: {
         rules: [
@@ -18,21 +19,37 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
-                    { loader: "style-loader" },
-                    { loader: "css-loader" }
+                    {loader: "style-loader"},
+                    {loader: "css-loader"}
+                ]
+            }, {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: [
+                    {
+                        loader: 'file-loader', options: {
+                            name: '[path][name].[ext]',
+                            outputPath: 'images/',
+                            emitFile: false
+                        }
+                    }
                 ]
             }
         ]
     },
+    devtool: 'inline-source-map',
     resolve: {
         extensions: [
             '.ts',
             '.js'
         ]
     },
-    devtool: 'inline-source-map',
     devServer: {
-        contentBase: "./dist",
-        hot: true
-    }
+        contentBase: "./dist"
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            title: 'Promises vs. Observables',
+            filename: 'index.html'
+        })
+    ]
 };
