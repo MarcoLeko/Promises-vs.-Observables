@@ -27,7 +27,13 @@ class LoginPanel {
     public submitForm(): void {
         this.setUserCredentials();
         const alert: HTMLElement = document.createElement('div');
-        alert.innerHTML = createAlert('success', `User with the email ${this.username} successfully signed up!`);
+        auth.createUserWithEmailAndPassword(this.username, this.password).then(() => {
+            const form: HTMLFormElement = document.getElementById('registerForm') as HTMLFormElement;
+            form.reset();
+            alert.innerHTML = createAlert('success', `User with the email ${this.username} successfully signed up!`);
+        }).catch((err) => {
+            alert.innerHTML = createAlert('danger', err.message);
+        });
         document.body.insertBefore(alert, document.body.childNodes[0]);
         setTimeout(() => $('.alert').alert('close'), 4000)
     };
