@@ -1,5 +1,5 @@
-export function createEntryPanel(): string {
-    return `<form id="signUpForm" class="sign-up-form mt-5">
+export function createEntryPanel(): void {
+    document.body.innerHTML = `<form id="signUpForm" class="sign-up-form mt-5">
                 <img class="mb-4" id="hm-logo" width="250" height="auto">
                 <div class="text-center">
                     <h1 class="h3 mb-3 font-weight-normal">Sign in</h1>

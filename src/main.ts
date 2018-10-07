@@ -17,23 +17,21 @@ class Entry {
     private password: string;
 
     constructor() {
-        document.body.innerHTML = createEntryPanel();
+        createEntryPanel();
         const image: HTMLImageElement = document.getElementById('hm-logo') as HTMLImageElement;
         image.src = img;
         this.addButtonEventListeners();
     }
 
     public setLoginPanel(): void {
-        const form: HTMLElement = document.getElementById('signUpMethod');
-        form.innerHTML = createEntryForm('login');
+        createEntryForm('login');
 
         const loginBtn: HTMLElement = document.getElementById('loginButton');
         loginBtn.addEventListener('click', () => this.login());
     }
 
     public setRegisterPanel(): void {
-        const form: HTMLElement = document.getElementById('signUpMethod');
-        form.innerHTML = createEntryForm('register');
+        createEntryForm('register');
 
         const registerBtn: HTMLElement = document.getElementById('registerButton');
         registerBtn.addEventListener('click', () => this.register());
