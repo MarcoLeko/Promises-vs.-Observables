@@ -1,9 +1,9 @@
-import './config';
+import './firebase-config';
 import 'bootstrap';
 import * as $ from 'jquery';
 import './styles/styles.css';
 import * as img from './assets/hm-logo.svg';
-import {app} from './config';
+import {app} from './firebase-config';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import {createRegisterPanel} from './views/register-panel';
@@ -11,7 +11,7 @@ import {createAlert} from './views/alerts';
 
 const auth: firebase.auth.Auth = app.auth();
 
-class LoginPanel {
+class Register {
 
     private username: string;
     private password: string;
@@ -44,4 +44,4 @@ class LoginPanel {
     }
 }
 
-const loginPanel = new LoginPanel();
+const loginPanel = new Register();

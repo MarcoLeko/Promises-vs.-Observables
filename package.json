@@ -4,10 +4,9 @@
   "description": "Project for my bachelor thesis",
   "main": "index.ts",
   "scripts": {
-    "webpack": "webpack",
     "start": "webpack-dev-server"
   },
-  "author": "",
+  "author": "Marco Leko",
   "license": "ISC",
   "devDependencies": {
     "@types/webpack": "^4.4.11",

@@ -21,4 +21,4 @@ var LoginPanel = /** @class */ (function () {
 }());
 var loginPanel = new LoginPanel();
 console.log('Hello there!');
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=main.js.map

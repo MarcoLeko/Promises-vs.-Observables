@@ -5,7 +5,7 @@ const webpack = require("webpack");
 module.exports = {
     mode: 'development',
     entry: [
-        './src/index.ts'
+        './src/main.ts'
     ],
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -24,7 +24,7 @@ module.exports = {
                     {loader: "css-loader"}
                 ]
             }, {
-                test: /\.(gif|png|jpe?g|svg)$/i,
+                test: /\.(gif|png|jpe?g|svg|ico)$/i,
                 use: [
                     {
                         loader: 'file-loader', options: {
@@ -48,6 +48,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Promises vs. Observables',
+            favicon: 'src/assets/favicon.ico',
             output: {
                 path: path.resolve(__dirname, 'dist'),
                 filename: 'index.html'
