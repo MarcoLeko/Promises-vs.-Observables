@@ -1,47 +1,69 @@
 import './firebase-config';
 import 'bootstrap';
-import * as $ from 'jquery';
 import './styles/styles.css';
 import * as img from './assets/hm-logo.svg';
 import {app} from './firebase-config';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import {createRegisterPanel} from './views/register-panel';
+import {createEntryPanel} from './views/entry-panel';
+import {createEntryForm} from './views/entry-form';
 import {createAlert} from './views/alerts';
 
 const auth: firebase.auth.Auth = app.auth();
 
-class Register {
+class Entry {
 
-    private username: string;
+    private email: string;
     private password: string;
 
     constructor() {
-        document.body.innerHTML = createRegisterPanel();
+        document.body.innerHTML = createEntryPanel();
         const image: HTMLImageElement = document.getElementById('hm-logo') as HTMLImageElement;
         image.src = img;
-        const btn: HTMLElement = document.getElementById('registerButton');
-        btn.addEventListener('click', () => this.submitForm());
+        this.addButtonEventListeners();
     }
 
-    public submitForm(): void {
+    public setLoginPanel(): void {
+        const form: HTMLElement = document.getElementById('signUpMethod');
+        form.innerHTML = createEntryForm('login');
+
+        const loginBtn: HTMLElement = document.getElementById('loginButton');
+        loginBtn.addEventListener('click', () => this.login());
+    }
+
+    public setRegisterPanel(): void {
+        const form: HTMLElement = document.getElementById('signUpMethod');
+        form.innerHTML = createEntryForm('register');
+
+        const registerBtn: HTMLElement = document.getElementById('registerButton');
+        registerBtn.addEventListener('click', () => this.register());
+    }
+
+    public login(): void {
         this.setUserCredentials();
-        const alert: HTMLElement = document.createElement('div');
-        auth.createUserWithEmailAndPassword(this.username, this.password).then(() => {
-            const form: HTMLFormElement = document.getElementById('registerForm') as HTMLFormElement;
-            form.reset();
-            alert.innerHTML = createAlert('success', `User with the email ${this.username} successfully signed up!`);
-        }).catch((err) => {
-            alert.innerHTML = createAlert('danger', err.message);
-        });
-        document.body.insertBefore(alert, document.body.childNodes[0]);
-        setTimeout(() => $('.alert').alert('close'), 4000)
+        auth.signInWithEmailAndPassword(this.email, this.password).catch(err =>
+            createAlert('danger', err.message));
+    }
+
+    public register(): void {
+        this.setUserCredentials();
+        auth.createUserWithEmailAndPassword(this.email, this.password).then(() =>
+            createAlert('success', `User with the email ${this.email} successfully signed up!`))
+            .catch((err) => createAlert('danger', err.message));
     };
 
+    private addButtonEventListeners() {
+        const registerFormBtn: HTMLElement = document.getElementById('registerFormButton');
+        registerFormBtn.addEventListener('click', () => this.setRegisterPanel());
+
+        const LoginFormBtn: HTMLElement = document.getElementById('loginFormButton');
+        LoginFormBtn.addEventListener('click', () => this.setLoginPanel());
+    }
+
     private setUserCredentials() {
-        this.username = document.getElementById('registerForm')[0].value;
-        this.password = document.getElementById('registerForm')[1].value;
+        this.email = document.getElementById('signUpForm')[0].value;
+        this.password = document.getElementById('signUpForm')[1].value;
     }
 }
 
-const loginPanel = new Register();
+new Entry();

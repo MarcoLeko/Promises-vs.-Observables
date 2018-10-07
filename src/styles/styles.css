@@ -19,3 +19,22 @@ h1, h2, h3 {
     justify-content: center;
     left: 10%;
 }
+
+.hr-sect {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #000;
+    margin: 8px 0;
+    font-size: 80%;
+}
+
+.hr-sect::before,
+.hr-sect::after {
+    content: "";
+    flex-grow: 1;
+    background: #000;
+    height: 1px;
+    line-height: 0;
+    margin: 0 8px;
+}
