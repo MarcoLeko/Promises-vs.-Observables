@@ -1,6 +1,6 @@
 import './firebase-config';
 import 'bootstrap';
-import './styles/styles.css';
+import './styles.css';
 import * as img from './assets/hm-logo.svg';
 import {app} from './firebase-config';
 import * as firebase from 'firebase/app';

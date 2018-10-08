@@ -49,6 +49,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'Promises vs. Observables',
             favicon: 'src/assets/favicon.ico',
+            template: './src/index.html',
             output: {
                 path: path.resolve(__dirname, 'dist'),
                 filename: 'index.html'

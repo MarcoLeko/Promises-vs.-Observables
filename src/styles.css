@@ -1,8 +1,37 @@
-@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+html{
+    height: 100%;
+}
+
+body{
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+main {
+    height: 85%;
+    min-height: 85%;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 15%;
+    min-height: 15%;
+    background-image: url("assets/logo-firebase.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+}
 
 h1, h2, h3 {
     font-family: Lato;
 }
+
+
 
 .sign-up-form {
     width: 100%;
