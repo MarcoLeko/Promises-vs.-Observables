@@ -1,9 +1,7 @@
-import {app} from '../firebase-config';
-import * as firebase from 'firebase/app';
+import {auth} from '../firebase-config';
 import {createNavbar} from '../views/profile-overview-navbar';
 import {Entry} from './entry';
 
-const auth: firebase.auth.Auth = app.auth();
 
 export class User {
 
@@ -20,7 +18,6 @@ export class User {
             if (user) {
                 this.email = user.email;
                 this.setUserOverview();
-                console.log(user)
             } else {
                 new Entry()
             }

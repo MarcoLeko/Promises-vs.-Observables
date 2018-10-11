@@ -1,10 +1,7 @@
-import {app} from '../firebase-config';
-import * as firebase from 'firebase/app';
 import {createEntryForm} from '../views/entry-form';
 import {createEntryPanel} from '../views/entry-panel';
 import {createAlert} from '../views/alerts';
-
-const auth: firebase.auth.Auth = app.auth();
+import {auth} from '../firebase-config';
 
 export class Entry {
 
