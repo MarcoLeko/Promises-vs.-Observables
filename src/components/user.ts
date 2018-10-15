@@ -1,14 +1,13 @@
-import {auth} from '../firebase-config';
-import {createNavbar} from '../views/profile-overview-navbar';
+import {auth} from '../firebase.config';
+import {createNavbar} from '../views/navbar';
 import {Entry} from './entry';
-
 
 export class User {
 
-    private email: string;
+    private currentUser: firebase.User;
 
     private setUserOverview() {
-        createNavbar(this.email);
+        createNavbar(this.currentUser.email);
         this.logout();
     }
 
@@ -16,7 +15,7 @@ export class User {
         // Listen for auth state changes.
        return auth.onAuthStateChanged(user => {
             if (user) {
-                this.email = user.email;
+                this.currentUser = user;
                 this.setUserOverview();
             } else {
                 new Entry()

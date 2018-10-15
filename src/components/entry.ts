@@ -1,7 +1,8 @@
 import {createEntryForm} from '../views/entry-form';
 import {createEntryPanel} from '../views/entry-panel';
 import {createAlert} from '../views/alerts';
-import {auth} from '../firebase-config';
+import {auth, firestore} from '../firebase.config';
+import {UserInformation} from './user-information.interface';
 
 export class Entry {
 
@@ -45,9 +46,13 @@ export class Entry {
         registerBtn.addEventListener('submit', (event: Event) => {
             event.preventDefault();
             this.setUserCredentials('registerForm');
-            auth.createUserWithEmailAndPassword(this.email, this.password).then(() =>
-                createAlert('success', `User with the email ${this.email} successfully signed up!`))
-                .catch((err) => createAlert('danger', err.message));
+            auth.createUserWithEmailAndPassword(this.email, this.password).then(() => {
+                const user: firebase.User = auth.currentUser;
+                const defaultUserEntity: UserInformation = {email: user.email, age: null, location: null, todo: null};
+                firestore.doc(`users/${user.uid}`).set(defaultUserEntity).then(() =>
+                    createAlert('success', `✅ User ${this.email} successfully signed up!`)
+                );
+            }).catch((err) => createAlert('danger', `❌ ${err.message}`));
         });
     };
 

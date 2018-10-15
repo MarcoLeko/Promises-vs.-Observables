@@ -11,7 +11,11 @@ const firebaseConfig = {
     storageBucket: 'promises-vs-observables.appspot.com',
     messagingSenderId: '504886896137'
 };
+
 export const app = firebase.initializeApp(firebaseConfig);
 export const auth: firebase.auth.Auth = app.auth();
 export const firestore: firebase.firestore.Firestore = app.firestore();
 export const storage: firebase.storage.Storage = app.storage();
+
+const settings = {timestampsInSnapshots: true};
+app.firestore().settings(settings);
