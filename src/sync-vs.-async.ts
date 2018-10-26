@@ -2,12 +2,12 @@ class Notifications {
 
     public success(msg: string): void {
         document.body.innerHTML +=
-            `<div class="alert alert-success slide-in-left" role="alert">${msg}</div>` as string;
+            `<div class="alert slide-in-left" role="alert">${msg}</div>` as string;
     }
 
     public primary(msg: string): void {
         document.body.innerHTML +=
-            `<div class="alert alert-primary slide-in-left" role="alert">${msg}</div>` as string;
+            `<div class="alert slide-in-left" role="alert">${msg}</div>` as string;
     }
 }
 
