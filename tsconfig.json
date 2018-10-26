@@ -11,6 +11,7 @@
     "downlevelIteration": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "rxjs.d.ts"
   ]
 }
