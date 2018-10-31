@@ -4,15 +4,13 @@
   "description": "Project for my bachelor thesis",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack --watch",
     "build": "webpack"
   },
   "author": "Marco Leko",
   "license": "ISC",
   "devDependencies": {
-    "css-loader": "^1.0.1",
     "file-loader": "^2.0.0",
-    "style-loader": "^0.23.1",
     "ts-loader": "^5.3.0",
     "tslint": "^5.11.0",
     "typescript": "^3.1.4",

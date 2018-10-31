@@ -1,4 +1,3 @@
-import '../styles.css';
 import {flatMap, last} from 'rxjs/operators';
 import {of} from 'rxjs/internal/observable/of';
 

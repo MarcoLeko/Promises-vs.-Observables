@@ -1,4 +1,3 @@
-import '../styles.css';
 
 class Notifications {
 
@@ -13,9 +12,9 @@ class Synchronous {
     public notification: Notifications = new Notifications();
 
     public printMessages(): void {
-        this.notification.msg('Hey Im message Nr. 1️⃣ !');
-        this.notification.msg('Hey Im message Nr. 2️⃣ !');
-        this.notification.msg('Hey Im message Nr. 3️⃣ !');
+        this.notification.msg('Hey Im message Nr. 1!');
+        this.notification.msg('Hey Im message Nr. 2 !');
+        this.notification.msg('Hey Im message Nr. 3 !');
     }
 }
 
@@ -24,9 +23,9 @@ class Asynchronous {
     public notification: Notifications = new Notifications();
 
     public printMessages(): void {
-        this.notification.msg('Hey Im message Nr. 1️⃣ !');
-        setTimeout(() => this.notification.msg('Hey Im message Nr. 2️⃣ !'), 50);
-        this.notification.msg('Hey Im message Nr. 3️⃣ !');
+        this.notification.msg('Hey Im message Nr. 1 !');
+        setTimeout(() => this.notification.msg('Hey Im message Nr. 2 !'), 50);
+        this.notification.msg('Hey Im message Nr. 3!');
     }
 }
 

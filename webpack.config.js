@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/observables.ts',
+    entry: './src/modules/sync-vs-async.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',
@@ -33,9 +33,4 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js']
     },
-    devServer: {
-        contentBase: path.join(__dirname, 'dist'),
-        compress: true,
-        port: 9000
-    }
 };
