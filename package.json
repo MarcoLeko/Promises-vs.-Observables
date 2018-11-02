@@ -10,7 +10,6 @@
   "author": "Marco Leko",
   "license": "ISC",
   "devDependencies": {
-    "file-loader": "^2.0.0",
     "ts-loader": "^5.3.0",
     "tslint": "^5.11.0",
     "typescript": "^3.1.4",

@@ -1,4 +1,3 @@
-
 class Notifications {
 
     public msg(msg: string): void {
