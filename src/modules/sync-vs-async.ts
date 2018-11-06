@@ -1,4 +1,4 @@
-class Notifications {
+export class Notifications {
 
     public msg(msg: string): void {
         document.body.innerHTML +=
@@ -6,30 +6,40 @@ class Notifications {
     }
 }
 
-class Synchronous {
+class Synchronous extends Notifications {
 
-    public notification: Notifications = new Notifications();
+    private printMessages(): void {
+        this.msg('Hey Im message Nr. 1!');
+        this.msg('Hey Im message Nr. 2 !');
+        this.msg('Hey Im message Nr. 3 !');
+    }
 
-    public printMessages(): void {
-        this.notification.msg('Hey Im message Nr. 1!');
-        this.notification.msg('Hey Im message Nr. 2 !');
-        this.notification.msg('Hey Im message Nr. 3 !');
+    public printAndTrackTime() {
+        const begin = window.performance.now();
+        this.printMessages();
+        const end = window.performance.now();
+        console.log(`Synchronous: ${(end - begin)}Milliseconds`)
     }
 }
 
-class Asynchronous {
+class Asynchronous extends Notifications {
 
-    public notification: Notifications = new Notifications();
+    private printMessages(): void {
+        this.msg('Hey Im message Nr. 1 !');
+        setTimeout(() => this.msg('Hey Im message Nr. 2 !'));
+        this.msg('Hey Im message Nr. 3!');
+    }
 
-    public printMessages(): void {
-        this.notification.msg('Hey Im message Nr. 1 !');
-        setTimeout(() => this.notification.msg('Hey Im message Nr. 2 !'), 50);
-        this.notification.msg('Hey Im message Nr. 3!');
+    public printAndTrackTime() {
+        const begin = window.performance.now();
+        this.printMessages();
+        const end = window.performance.now();
+        console.log(`Asynchronous: ${(end - begin)}Milliseconds`)
     }
 }
 
 const sync = new Synchronous();
 const async = new Asynchronous();
 
-sync.printMessages();
-async.printMessages();
+sync.printAndTrackTime();
+async.printAndTrackTime();

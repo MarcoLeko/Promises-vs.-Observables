@@ -7,3 +7,11 @@ body {
     margin: 2em;
     text-align: center;
 }
+
+.time-alert {
+    margin: 2em;
+    text-align: center;
+    border: 1px dashed white;
+    padding: 1em;
+    border-radius: 25px;
+}
