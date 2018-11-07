@@ -18,7 +18,7 @@ class Synchronous extends Notifications {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
-        console.log(`Synchronous: ${(end - begin)}Milliseconds`)
+        document.body.innerHTML += `<div class="time-box sync">Synchronous: ${end - begin}ms</div>`
     }
 }
 
@@ -26,7 +26,7 @@ class Asynchronous extends Notifications {
 
     private printMessages(): void {
         this.msg('Hey Im message Nr. 1 !');
-        setTimeout(() => this.msg('Hey Im message Nr. 2 !'));
+        setTimeout(() => this.msg('Hey Im message Nr. 2 !'), 50);
         this.msg('Hey Im message Nr. 3!');
     }
 
@@ -34,7 +34,7 @@ class Asynchronous extends Notifications {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
-        console.log(`Asynchronous: ${(end - begin)}Milliseconds`)
+        document.body.innerHTML += `<div class="time-box async">Asynchronous: ${end - begin}ms</div>`
     }
 }
 
@@ -42,4 +42,5 @@ const sync = new Synchronous();
 const async = new Asynchronous();
 
 sync.printAndTrackTime();
+document.body.innerHTML += '<hr>';
 async.printAndTrackTime();

@@ -8,10 +8,23 @@ body {
     text-align: center;
 }
 
-.time-alert {
-    margin: 2em;
+.time-box {
+    position: absolute;
+    display: block;
+    margin: 1.5em;
     text-align: center;
     border: 1px dashed white;
     padding: 1em;
     border-radius: 25px;
+}
+
+.time-box.sync {
+    top: 0;
+    right: 0;
+}
+
+
+.time-box.async {
+    left: 0;
+    top: 188px;
 }
