@@ -18,7 +18,7 @@ class Synchronous extends Notifications {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
-        document.body.innerHTML += `<div class="time-box sync">Synchronous: ${end - begin}ms</div>`
+        document.body.innerHTML += `<div class="time-box sync">Synchronous: ${end - begin}ms</div>`;
     }
 }
 
@@ -34,7 +34,7 @@ class Asynchronous extends Notifications {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
-        document.body.innerHTML += `<div class="time-box async">Asynchronous: ${end - begin}ms</div>`
+        document.body.innerHTML += `<div class="time-box async">Asynchronous: ${end - begin}ms</div>`;
     }
 }
 

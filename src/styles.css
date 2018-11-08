@@ -28,3 +28,12 @@ body {
     left: 0;
     top: 188px;
 }
+
+h1 {
+    text-align: center;
+}
+
+.story-info {
+    font-size: 0.8em;
+    color: blue;
+}
