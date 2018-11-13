@@ -45,7 +45,7 @@ class Story extends HTTP {
     public printPost(result: XMLHttpRequestResponseType): void {
         let posts = JSON.parse(result);
         if (posts instanceof Array === false)  {
-            posts = [posts];
+            posts = [posts] as Post[];
         }
         for (const post of posts) {
             document.body.innerHTML +=

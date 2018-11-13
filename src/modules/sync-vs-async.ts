@@ -8,33 +8,33 @@ export class Notifications {
 
 class Synchronous extends Notifications {
 
-    private printMessages(): void {
-        this.msg('Hey Im message Nr. 1!');
-        this.msg('Hey Im message Nr. 2 !');
-        this.msg('Hey Im message Nr. 3 !');
-    }
-
     public printAndTrackTime() {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
         document.body.innerHTML += `<div class="time-box sync">Synchronous: ${end - begin}ms</div>`;
     }
+
+    private printMessages(): void {
+        this.msg('Hey Im message Nr. 1!');
+        this.msg('Hey Im message Nr. 2 !');
+        this.msg('Hey Im message Nr. 3 !');
+    }
 }
 
 class Asynchronous extends Notifications {
-
-    private printMessages(): void {
-        this.msg('Hey Im message Nr. 1 !');
-        setTimeout(() => this.msg('Hey Im message Nr. 2 !'), 50);
-        this.msg('Hey Im message Nr. 3!');
-    }
 
     public printAndTrackTime() {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
         document.body.innerHTML += `<div class="time-box async">Asynchronous: ${end - begin}ms</div>`;
+    }
+
+    private printMessages(): void {
+        this.msg('Hey Im message Nr. 1 !');
+        setTimeout(() => this.msg('Hey Im message Nr. 2 !'), 50);
+        this.msg('Hey Im message Nr. 3!');
     }
 }
 
