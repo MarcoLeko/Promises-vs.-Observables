@@ -1,18 +1,22 @@
-export class Notifications {
+export class Print {
 
     public msg(msg: string): void {
         document.body.innerHTML +=
             `<div class="alert" role="alert">${msg}</div>` as string;
     }
+
+    public time(begin: number, end: number, css: string) {
+        document.body.innerHTML += `<div class="time-box ${css}">time: ${end - begin}ms</div>`;
+    }
 }
 
-class Synchronous extends Notifications {
+class Synchronous extends Print {
 
     public printAndTrackTime() {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
-        document.body.innerHTML += `<div class="time-box sync">Synchronous: ${end - begin}ms</div>`;
+        this.time(begin, end, 'sync');
     }
 
     private printMessages(): void {
@@ -22,13 +26,13 @@ class Synchronous extends Notifications {
     }
 }
 
-class Asynchronous extends Notifications {
+class Asynchronous extends Print {
 
     public printAndTrackTime() {
         const begin = window.performance.now();
         this.printMessages();
         const end = window.performance.now();
-        document.body.innerHTML += `<div class="time-box async">Asynchronous: ${end - begin}ms</div>`;
+        this.time(begin, end, 'async');
     }
 
     private printMessages(): void {

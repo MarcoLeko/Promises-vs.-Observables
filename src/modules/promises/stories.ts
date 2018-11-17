@@ -110,7 +110,7 @@ story.getChapter(1)
         .then((response5: XMLHttpRequestResponseType) => {
             story.spawn(response5);
         }))
-    .then(() => {
+    .finally(() => {
         story.displayFinished();
         story.spinnerElement.style.display = 'none';
     });
@@ -124,12 +124,12 @@ for (const n of [1, 2, 3, 4, 5]) {
         }));
 }
 
-Promise.all(promises).then(() => {
+Promise.all(promises).finally(() => {
     story.displayFinished();
     story.spinnerElement.style.display = 'none';
 });
 
-Promise.race(promises).then(() => {
+Promise.race(promises).finally(() => {
     story.displayFinished();
     story.spinnerElement.style.display = 'none';
 });

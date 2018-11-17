@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/promises/stories.ts',
+    entry: './src/modules/sync-vs-async.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',
