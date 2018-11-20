@@ -1,5 +1,5 @@
 const keepsHisWord = true;
-const first = new Promise((resolve, reject) => {
+const first = new Promise(function(resolve, reject) {
     if (keepsHisWord) {
         resolve('Promises kept!');
     } else {
@@ -14,7 +14,7 @@ export interface FakeHttpResponse {
     message: string;
 }
 
-const second = new Promise<FakeHttpResponse>((resolve, reject) => {
+const second = new Promise<FakeHttpResponse>(function(resolve, reject) {
     setTimeout(() => {
         resolve({
             code: '200',
@@ -25,3 +25,9 @@ const second = new Promise<FakeHttpResponse>((resolve, reject) => {
 
 console.log(second);
 setTimeout(() => console.log(second), 10 * 1000);
+
+const third = Promise.reject('I reject on purpose!');
+
+third.catch(function(err: string) {
+    console.log('Reason of failure: ' + err);
+});

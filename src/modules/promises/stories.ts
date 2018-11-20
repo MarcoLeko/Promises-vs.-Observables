@@ -73,9 +73,7 @@ class Story extends HTTP {
     }
 
     public displayFinished() {
-        const done: Node = document.createElement('div');
-        done.textContent = 'All done!';
-        document.body.appendChild(done);
+        document.body.innerHTML += '<div>All done!</div>';
     }
 }
 
@@ -85,9 +83,9 @@ document.body.appendChild(story.spinnerElement);
 
 story.getAllStories()
     .then((response: XMLHttpRequestResponseType) => story.spawn(response))
-    .then(() => {
-        story.displayFinished();
+    .finally(() => {
         story.spinnerElement.style.display = 'none';
+        story.displayFinished();
     });
 
 story.getChapter(1)
@@ -111,8 +109,8 @@ story.getChapter(1)
             story.spawn(response5);
         }))
     .finally(() => {
-        story.displayFinished();
         story.spinnerElement.style.display = 'none';
+        story.displayFinished();
     });
 
 const promises: Array<Promise<void>> = [];
@@ -125,11 +123,12 @@ for (const n of [1, 2, 3, 4, 5]) {
 }
 
 Promise.all(promises).finally(() => {
-    story.displayFinished();
     story.spinnerElement.style.display = 'none';
+    story.displayFinished();
+
 });
 
 Promise.race(promises).finally(() => {
-    story.displayFinished();
     story.spinnerElement.style.display = 'none';
+    story.displayFinished();
 });
