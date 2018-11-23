@@ -1,5 +1,7 @@
 const path = require('path');
 
+/*** Define your entry file within the Object below via the entry property. **/
+
 module.exports = {
     mode: 'development',
     entry: './src/modules/promises/stories.ts',

@@ -31,3 +31,21 @@ const third = Promise.reject('I reject on purpose!');
 third.catch(function(err: string) {
     console.log('Reason of failure: ' + err);
 });
+
+async function getHisWord() {
+    const keptWord = await first;
+    console.log('Jack, ' + keptWord);
+}
+
+getHisWord();
+
+async function getNotHisWord() {
+    try {
+        const keepNotHisWord = await third;
+        console.log(keepNotHisWord);
+    } catch (e) {
+        console.log('Jack said: ' + e);
+    }
+}
+
+getNotHisWord();

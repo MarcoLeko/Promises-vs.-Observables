@@ -1,10 +1,3 @@
-export interface Post {
-    userId: string;
-    id: string;
-    title: string;
-    body: string;
-}
-
 export class HTTP {
 
     public makeRequest(url: string): Promise<XMLHttpRequestResponseType | string> {
@@ -62,7 +55,7 @@ class Story extends HTTP {
     public spawn(result: XMLHttpRequestResponseType): void {
         let posts = JSON.parse(result);
         if (posts instanceof Array === false) {
-            posts = [posts] as Post[];
+            posts = [posts];
         }
         for (const post of posts) {
             this.storyElement.innerHTML +=
@@ -132,3 +125,39 @@ Promise.race(promises).finally(() => {
     story.spinnerElement.style.display = 'none';
     story.displayFinished();
 });
+
+async function getFirstFiveChapter() {
+    try {
+        for (const n of [1, 2, 3, 4 , 5]) {
+            const chapter = await story.getChapter(n);
+            story.spawn(chapter as XMLHttpRequestResponseType);
+        }
+    } finally {
+        story.spinnerElement.style.display = 'none';
+        story.displayFinished();
+    }
+}
+
+getFirstFiveChapter();
+
+async function getStoryAndPrint(chapter: number) {
+    const res = await story.getChapter(chapter);
+    story.spawn(res as XMLHttpRequestResponseType);
+}
+
+async function getFirstFiveStoriesInParallel() {
+    try {
+        const promises = [];
+
+        for (const n of [1, 2, 3, 4, 5]) {
+            promises.push(getStoryAndPrint(n));
+        }
+
+        await Promise.all(promises);
+    } finally {
+        story.spinnerElement.style.display = 'none';
+        story.displayFinished();
+    }
+}
+
+getFirstFiveStoriesInParallel();
