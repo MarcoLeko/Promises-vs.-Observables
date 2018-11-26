@@ -15,7 +15,10 @@
         "max-classes-per-file": false,
         "only-arrow-functions": false,
         "trailing-comma": false,
-        "arrow-parens": false
+        "arrow-parens": false,
+        "object-literal-sort-keys": false,
+        "ordered-imports": false,
+        "no-angle-bracket-type-assertion": false
     },
     "rulesDirectory": []
 }
