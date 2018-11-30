@@ -26,9 +26,9 @@ const pendingPromise = new Promise<FakeHttpResponse>((resolve, reject) => {
 console.log(pendingPromise);
 setTimeout(() => console.log(pendingPromise), 10 * 1000);
 
-const third = Promise.reject('I reject on purpose!');
+const rejectedPromise = Promise.reject('I reject on purpose!');
 
-third.catch((err: string) => {
+rejectedPromise.catch((err: string) => {
     console.log('Reason of failure: ' + err);
 });
 
@@ -41,7 +41,7 @@ getHisWord();
 
 async function getNotHisWord() {
     try {
-        const keepNotHisWord = await third;
+        const keepNotHisWord = await rejectedPromise;
         console.log(keepNotHisWord);
     } catch (e) {
         console.log('Jack said: ' + e);
