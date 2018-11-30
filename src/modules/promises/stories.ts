@@ -93,42 +93,34 @@ story.getChapter(1)
         .then((response3: XMLHttpRequestResponseType) => {
             story.spawn(response3);
         }))
-    .then(() => story.getChapter(4)
-        .then((response4: XMLHttpRequestResponseType) => {
-            story.spawn(response4);
-        }))
-    .then(() => story.getChapter(5)
-        .then((response5: XMLHttpRequestResponseType) => {
-            story.spawn(response5);
-        }))
     .finally(() => {
         story.spinnerElement.style.display = 'none';
         story.displayFinished();
     });
 
-const promises: Array<Promise<void>> = [];
+const chapters: Array<Promise<void>> = [];
 
-for (const n of [1, 2, 3, 4, 5]) {
-    promises.push(story.getChapter(n)
+for (const n of [1, 2, 3]) {
+    chapters.push(story.getChapter(n)
         .then((response: XMLHttpRequestResponseType) => {
             story.spawn(response);
         }));
 }
 
-Promise.all(promises).finally(() => {
+Promise.all(chapters).finally(() => {
     story.spinnerElement.style.display = 'none';
     story.displayFinished();
 
 });
 
-Promise.race(promises).finally(() => {
+Promise.race(chapters).finally(() => {
     story.spinnerElement.style.display = 'none';
     story.displayFinished();
 });
 
-async function getFirstFiveChapter() {
+async function getFirstSections() {
     try {
-        for (const n of [1, 2, 3, 4 , 5]) {
+        for (const n of [1, 2, 3]) {
             const chapter = await story.getChapter(n);
             story.spawn(chapter as XMLHttpRequestResponseType);
         }
@@ -138,18 +130,18 @@ async function getFirstFiveChapter() {
     }
 }
 
-getFirstFiveChapter();
+getFirstSections();
 
 async function getStoryAndPrint(chapter: number) {
     const res = await story.getChapter(chapter);
     story.spawn(res as XMLHttpRequestResponseType);
 }
 
-async function getFirstFiveStoriesInParallel() {
+async function getFirstSectionsInParallel() {
     try {
         const promises = [];
 
-        for (const n of [1, 2, 3, 4, 5]) {
+        for (const n of [1, 2, 3]) {
             promises.push(getStoryAndPrint(n));
         }
 
@@ -160,4 +152,4 @@ async function getFirstFiveStoriesInParallel() {
     }
 }
 
-getFirstFiveStoriesInParallel();
+getFirstSectionsInParallel();
