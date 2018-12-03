@@ -6,8 +6,8 @@ document.body.innerHTML += `<div class="center">
                                 <input class="form-control" type="text">
                                 <p id="result"></p>
                             </div>`;
-const node = document.querySelector('input[type=text]');
 
+const node = document.querySelector('input[type=text]');
 const input$ = fromEvent(node, 'input');
 
 input$.subscribe({
