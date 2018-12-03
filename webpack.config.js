@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/observablessync-vs-async.ts',
+    entry: './src/modules/observables/introduction.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',
