@@ -7,7 +7,7 @@ export class HTTP {
 
             req.onload = () => {
                 if (req.status === 200) {
-                    this.fakeLatency(3000 * Math.random())
+                    this.fakeLatency()
                         .then(() => resolve(req.response));
                 } else {
                     reject(Error(req.statusText));
@@ -22,9 +22,9 @@ export class HTTP {
         });
     }
 
-    private fakeLatency(ms: number) {
+    private fakeLatency() {
         return new Promise((resolve) =>
-            setTimeout(resolve, ms));
+            setTimeout(resolve, 3000 * Math.random()));
     }
 }
 
