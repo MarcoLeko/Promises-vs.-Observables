@@ -1,6 +1,6 @@
 export class HTTP {
 
-    public makeRequest(url: string): Promise<XMLHttpRequestResponseType | string> {
+    public makeRequest(url: string): Promise<string> {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
             req.open('GET', url);
@@ -42,30 +42,36 @@ class Story extends HTTP {
              </svg>`;
     }
 
-    public getAllStories(): Promise<XMLHttpRequestResponseType | string> {
+    public getAllStories(): Promise<string> {
         const relativeUrl: string = 'posts';
         return this.makeRequest(Story.BASE_URL + relativeUrl);
     }
 
     // Range of possible chapters: 0 < chapter <= 99
-    public getChapter(chapter: number): Promise<XMLHttpRequestResponseType | string> {
+    public getChapter(chapter: number): Promise<string> {
         return this.makeRequest(`${Story.BASE_URL}posts/${chapter.toString()}`);
     }
 
-    public spawn(result: XMLHttpRequestResponseType): void {
-        let posts = JSON.parse(result);
-        if (posts instanceof Array === false) {
-            posts = [posts];
+    public spawn(result: string | string[]): void {
+        const chapter = [];
+
+        if (result instanceof Array === false) {
+            chapter.push(JSON.parse(result as string));
+        } else {
+            for (const post of result) {
+                chapter.push(JSON.parse(post));
+            }
         }
-        for (const post of posts) {
+
+        chapter.forEach(elm =>
             this.storyElement.innerHTML +=
-                `<h1>${post.title}</h1>
-                    <div class="story-info"><i>ID: Post-${post.id}</i></div>
-                <div><p>${post.body}.</p></div>`;
-        }
+                `<h1>${elm.title}</h1>
+                     <div class="story-info"><i>ID: Post-${elm.id}</i></div>
+                 <div><p>${elm.body}.</p></div>`
+        );
     }
 
-    public displayFinished() {
+    public displayFinished(): void {
         document.body.innerHTML += '<div>All done!</div>';
     }
 }
@@ -92,21 +98,22 @@ story.getChapter(1).then((response1: XMLHttpRequestResponseType) => // (*)
     story.displayFinished();
 });
 
-const chapters: Array<Promise<void>> = [];
+const chapters: Array<Promise<string>> = [];
 
 for (const n of [1, 2, 3]) {
-    chapters.push(story.getChapter(n).then((response: XMLHttpRequestResponseType) =>
-            story.spawn(response)
-        ));
+    chapters.push(story.getChapter(n));
 }
 
-Promise.all(chapters).finally(() => {
+Promise.all(chapters).then((response) =>
+    story.spawn(response)
+).finally(() => {
     story.spinnerElement.style.display = 'none';
     story.displayFinished();
-
 });
 
-Promise.race(chapters).finally(() => {
+Promise.race(chapters).then((response) =>
+    story.spawn(response)
+).finally(() => {
     story.spinnerElement.style.display = 'none';
     story.displayFinished();
 });
@@ -124,10 +131,10 @@ async function getFirstSections() {
 }
 
 getFirstSections();
-
+//
 async function getStoryAndPrint(chapter: number) {
     const res = await story.getChapter(chapter);
-    story.spawn(res as XMLHttpRequestResponseType);
+    story.spawn(res);
 }
 
 async function getFirstSectionsInParallel() {
