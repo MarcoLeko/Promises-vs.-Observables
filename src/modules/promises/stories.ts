@@ -81,30 +81,23 @@ story.getAllStories()
         story.displayFinished();
     });
 
-story.getChapter(1)
-    .then((response1: XMLHttpRequestResponseType) => {
-        story.spawn(response1);
-    })
-    .then(() => story.getChapter(2)
-        .then((response2: XMLHttpRequestResponseType) => {
-            story.spawn(response2);
-        }))
-    .then(() => story.getChapter(3)
-        .then((response3: XMLHttpRequestResponseType) => {
-            story.spawn(response3);
-        }))
-    .finally(() => {
-        story.spinnerElement.style.display = 'none';
-        story.displayFinished();
-    });
+story.getChapter(1).then((response1: XMLHttpRequestResponseType) => // (*)
+    story.spawn(response1)
+).then(() => // (**)
+    story.getChapter(2).then((response2: XMLHttpRequestResponseType) => story.spawn(response2))
+).then(() => // (***)
+    story.getChapter(3).then((response3: XMLHttpRequestResponseType) => story.spawn(response3))
+).finally(() => { // (****)
+    story.spinnerElement.style.display = 'none';
+    story.displayFinished();
+});
 
 const chapters: Array<Promise<void>> = [];
 
 for (const n of [1, 2, 3]) {
-    chapters.push(story.getChapter(n)
-        .then((response: XMLHttpRequestResponseType) => {
-            story.spawn(response);
-        }));
+    chapters.push(story.getChapter(n).then((response: XMLHttpRequestResponseType) =>
+            story.spawn(response)
+        ));
 }
 
 Promise.all(chapters).finally(() => {
