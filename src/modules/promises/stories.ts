@@ -121,8 +121,7 @@ Promise.race(chapters).then((response) =>
 async function getFirstSections() {
     try {
         for (const n of [1, 2, 3]) {
-            const chapter = await story.getChapter(n);
-            story.spawn(chapter as XMLHttpRequestResponseType);
+            story.spawn(await story.getChapter(n));
         }
     } finally {
         story.spinnerElement.style.display = 'none';
@@ -132,20 +131,13 @@ async function getFirstSections() {
 
 getFirstSections();
 
-async function getStoryAndPrint(chapter: number) {
-    const res = await story.getChapter(chapter);
-    story.spawn(res);
-}
-
 async function getFirstSectionsInParallel() {
     try {
         const promises = [];
 
-        for (const n of [1, 2, 3]) {
-            promises.push(getStoryAndPrint(n));
-        }
+        [1, 2, 3].forEach(n => promises.push(story.getChapter(n)));
 
-        await Promise.all(promises);
+        story.spawn(await Promise.all(promises));
     } finally {
         story.spinnerElement.style.display = 'none';
         story.displayFinished();
