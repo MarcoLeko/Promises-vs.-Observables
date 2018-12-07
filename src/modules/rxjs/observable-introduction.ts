@@ -2,7 +2,7 @@ import {filter, map, reduce, take} from 'rxjs/operators';
 import * as RxJS from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
 
-const root: Observable<number> = RxJS.Observable.create((observer) => {
+const alias: Observable<number> = RxJS.Observable.create((observer) => {
     observer.next(1);
     observer.next(2);
     observer.next(3);
@@ -13,12 +13,18 @@ const root: Observable<number> = RxJS.Observable.create((observer) => {
 });
 
 console.log('Before subscribe');
-root.subscribe({
+alias.subscribe({
     next: x => console.log('Value: ' + x),
     error: err => console.error('Error occurred: ' + err),
     complete: () => console.log('Done!'),
 });
 console.log('After subscribe');
+
+const root = new Observable<string>((observer) => {
+    setInterval(() => observer.next('hi'), 2000);
+});
+
+root.subscribe((val: string) => console.log(val));
 
 /*** Operators **/
 const source = ['1', '2', '5', 'foo', '13', '17', 'bar'];
