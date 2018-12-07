@@ -1,6 +1,25 @@
 import {fromEvent} from 'rxjs/internal/observable/fromEvent';
 import {filter, map, reduce, take} from 'rxjs/operators';
 import * as RxJS from 'rxjs';
+import {Observable} from 'rxjs/internal/Observable';
+
+const observable: Observable<number> = RxJS.Observable.create((observer) => {
+    observer.next(1);
+    observer.next(2);
+    observer.next(3);
+    setTimeout(() => {
+        observer.next(4);
+        observer.complete();
+    }, 1000);
+});
+
+console.log('Before subscribe');
+observable.subscribe({
+    next: x => console.log('Value: ' + x),
+    error: err => console.error('Something wrong occurred: ' + err),
+    complete: () => console.log('Done!'),
+});
+console.log('After subscribe');
 
 document.body.innerHTML += `<div class="center">
                                 <input class="form-control" type="text">
