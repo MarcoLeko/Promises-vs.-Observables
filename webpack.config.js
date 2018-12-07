@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/observables/introduction.ts',
+    entry: './src/modules/rxjs/observable-introduction.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',
