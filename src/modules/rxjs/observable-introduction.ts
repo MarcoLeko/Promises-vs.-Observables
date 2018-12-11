@@ -1,4 +1,4 @@
-import {filter, map, reduce, take} from 'rxjs/operators';
+import {filter, map, publish, reduce, refCount, shareReplay, take} from 'rxjs/operators';
 import * as RxJS from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
 
@@ -20,11 +20,27 @@ alias.subscribe({
 });
 console.log('After subscribe');
 
+/*** unicast vs multicast **/
 const root = new Observable<string>((observer) => {
     setInterval(() => observer.next('hi'), 2000);
 });
 
 root.subscribe((val: string) => console.log(val));
+
+const randomNumber = new Observable<number>(observer => {
+    observer.next(Math.random());
+});
+
+const multicast = randomNumber.pipe(shareReplay());
+
+multicast.subscribe(value => console.log('First subscription emits: ' + value));
+multicast.subscribe(value => console.log('Second subscription emits: ' + value));
+
+/*** hot vs cold observables **/
+const obs = RxJS.interval(1000).pipe(publish(), refCount());
+
+obs.subscribe(v => console.log('1st subscriber:' + v));
+setTimeout(() => obs.subscribe(v => console.log('2nd subscriber:' + v)), 1100);
 
 /*** Operators **/
 const source = ['1', '2', '5', 'foo', '13', '17', 'bar'];
