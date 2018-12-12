@@ -1,6 +1,7 @@
-import {filter, map, publish, reduce, refCount, shareReplay, take} from 'rxjs/operators';
+import {filter, map, publish, reduce, shareReplay, take} from 'rxjs/operators';
 import * as RxJS from 'rxjs';
 import {Observable} from 'rxjs/internal/Observable';
+import {ConnectableObservable} from 'rxjs/internal/observable/ConnectableObservable';
 
 const alias: Observable<number> = RxJS.Observable.create((observer) => {
     observer.next(1);
@@ -14,8 +15,8 @@ const alias: Observable<number> = RxJS.Observable.create((observer) => {
 
 console.log('Before subscribe');
 alias.subscribe({
-    next: x => console.log('Value: ' + x),
-    error: err => console.error('Error occurred: ' + err),
+    next: x => console.log('Value: ', x),
+    error: err => console.error('Error occurred: ', err),
     complete: () => console.log('Done!'),
 });
 console.log('After subscribe');
@@ -37,10 +38,13 @@ multicast.subscribe(value => console.log('First subscription emits: ' + value));
 multicast.subscribe(value => console.log('Second subscription emits: ' + value));
 
 /*** hot vs cold observables **/
-const obs = RxJS.interval(1000).pipe(publish(), refCount());
+const infinite = RxJS.interval(1000).pipe(publish()) as ConnectableObservable<number>;
 
-obs.subscribe(v => console.log('1st subscriber:' + v));
-setTimeout(() => obs.subscribe(v => console.log('2nd subscriber:' + v)), 1100);
+infinite.connect();
+setTimeout(() =>
+    infinite.subscribe(v => console.log('1st subscriber:', v)), 2000);
+setTimeout(() =>
+    infinite.subscribe(v => console.log('2nd subscriber: ', v)), 3000);
 
 /*** Operators **/
 const source = ['1', '2', '5', 'foo', '13', '17', 'bar'];
