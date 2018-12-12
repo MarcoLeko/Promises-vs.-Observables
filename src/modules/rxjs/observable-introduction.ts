@@ -22,29 +22,24 @@ alias.subscribe({
 console.log('After subscribe');
 
 /*** unicast vs multicast **/
-const root = new Observable<string>((observer) => {
-    setInterval(() => observer.next('hi'), 2000);
-});
-
-root.subscribe((val: string) => console.log(val));
-
 const randomNumber = new Observable<number>(observer => {
     observer.next(Math.random());
 });
 
+randomNumber.subscribe(value => console.log('1st subscription emits: ', value));
+randomNumber.subscribe(value => console.log('2nd subscription emits: ', value));
+
 const multicast = randomNumber.pipe(shareReplay());
 
-multicast.subscribe(value => console.log('First subscription emits: ' + value));
-multicast.subscribe(value => console.log('Second subscription emits: ' + value));
+multicast.subscribe(value => console.log('1st subscription emits: ', value));
+multicast.subscribe(value => console.log('2nd subscription emits: ', value));
 
 /*** hot vs cold observables **/
 const infinite = RxJS.interval(1000).pipe(publish()) as ConnectableObservable<number>;
 
 infinite.connect();
-setTimeout(() =>
-    infinite.subscribe(v => console.log('1st subscriber:', v)), 2000);
-setTimeout(() =>
-    infinite.subscribe(v => console.log('2nd subscriber: ', v)), 3000);
+setTimeout(() => infinite.subscribe(v => console.log('1st subscriber:', v)), 2000);
+setTimeout(() => infinite.subscribe(v => console.log('2nd subscriber: ', v)), 3000);
 
 /*** Operators **/
 const source = ['1', '2', '5', 'foo', '13', '17', 'bar'];
