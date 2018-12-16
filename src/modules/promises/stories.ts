@@ -30,7 +30,7 @@ export class HTTP {
 
 class Story extends HTTP {
 
-    public static BASE_URL = 'https://jsonplaceholder.typicode.com/';
+    public static BASE_URL = 'https://jsonplaceholder.typicode.com/posts/';
     public spinnerElement: HTMLElement = document.createElement('div');
     public storyElement: HTMLElement = document.createElement('div');
 
@@ -43,27 +43,21 @@ class Story extends HTTP {
     }
 
     public getAllStories(): Promise<string> {
-        const relativeUrl: string = 'posts';
-        return this.makeRequest(Story.BASE_URL + relativeUrl);
+        return this.makeRequest(Story.BASE_URL);
     }
 
-    // Range of possible chapters: 0 < chapter <= 99
     public getChapter(chapter: number): Promise<string> {
-        return this.makeRequest(`${Story.BASE_URL}posts/${chapter.toString()}`);
+        return this.makeRequest(Story.BASE_URL + chapter.toString());
     }
 
-    public spawn(result: string | string[]): void {
-        const chapter = [];
+    public spawn(content): void {
+        content = JSON.parse(content);
 
-        if (result instanceof Array === false) {
-            chapter.push(JSON.parse(result as string));
-        } else {
-            for (const post of result) {
-                chapter.push(JSON.parse(post));
-            }
+        if (content instanceof Array === false) {
+            content = [content];
         }
 
-        chapter.forEach(elm =>
+        content.forEach(elm =>
             this.storyElement.innerHTML +=
                 `<h1>${elm.title}</h1>
                      <div class="story-info"><i>ID: Post-${elm.id}</i></div>
