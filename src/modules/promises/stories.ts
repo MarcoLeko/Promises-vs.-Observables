@@ -28,26 +28,28 @@ export class HTTP {
     }
 }
 
-class Story extends HTTP {
+class Story {
 
     public static BASE_URL = 'https://jsonplaceholder.typicode.com/posts/';
+    public http: HTTP = new HTTP();
     public spinnerElement: HTMLElement = document.createElement('div');
     public storyElement: HTMLElement = document.createElement('div');
 
     constructor() {
-        super();
         this.spinnerElement.innerHTML =
             `<svg class="spinner" viewBox="0 0 100 100" width="20" height="20">
                 <circle cx="50" cy="50" r="42" transform="rotate(-90,50,50)" />
              </svg>`;
+        document.body.appendChild(this.storyElement);
+        document.body.appendChild(this.spinnerElement);
     }
 
     public getAllStories(): Promise<string> {
-        return this.makeRequest(Story.BASE_URL);
+        return this.http.makeRequest(Story.BASE_URL);
     }
 
     public getChapter(chapter: number): Promise<string> {
-        return this.makeRequest(Story.BASE_URL + chapter.toString());
+        return this.http.makeRequest(Story.BASE_URL + chapter.toString());
     }
 
     public spawn(content): void {
@@ -66,18 +68,16 @@ class Story extends HTTP {
     }
 
     public displayFinished(): void {
+        this.spinnerElement.style.display = 'none';
         document.body.innerHTML += '<div>All done!</div>';
     }
 }
 
 const story = new Story();
-document.body.appendChild(story.storyElement);
-document.body.appendChild(story.spinnerElement);
 
 story.getAllStories()
     .then((response: XMLHttpRequestResponseType) => story.spawn(response))
     .finally(() => {
-        story.spinnerElement.style.display = 'none';
         story.displayFinished();
     });
 
@@ -87,10 +87,9 @@ story.getChapter(1).then((response1: XMLHttpRequestResponseType) => // (*)
     story.getChapter(2).then((response2: XMLHttpRequestResponseType) => story.spawn(response2))
 ).then(() => // (***)
     story.getChapter(3).then((response3: XMLHttpRequestResponseType) => story.spawn(response3))
-).finally(() => { // (****)
-    story.spinnerElement.style.display = 'none';
-    story.displayFinished();
-});
+).finally(() =>  // (****)
+    story.displayFinished()
+);
 
 const chapters: Array<Promise<string>> = [];
 
@@ -100,17 +99,15 @@ for (const n of [1, 2, 3]) {
 
 Promise.all(chapters).then((response) =>
     story.spawn(response)
-).finally(() => {
-    story.spinnerElement.style.display = 'none';
-    story.displayFinished();
-});
+).finally(() =>
+    story.displayFinished()
+);
 
 Promise.race(chapters).then((response) =>
     story.spawn(response)
-).finally(() => {
-    story.spinnerElement.style.display = 'none';
-    story.displayFinished();
-});
+).finally(() =>
+    story.displayFinished()
+);
 
 async function getFirstSections() {
     try {
@@ -118,7 +115,6 @@ async function getFirstSections() {
             story.spawn(await story.getChapter(n));
         }
     } finally {
-        story.spinnerElement.style.display = 'none';
         story.displayFinished();
     }
 }
@@ -133,7 +129,6 @@ async function getFirstSectionsInParallel() {
 
         story.spawn(await Promise.all(promises));
     } finally {
-        story.spinnerElement.style.display = 'none';
         story.displayFinished();
     }
 }
