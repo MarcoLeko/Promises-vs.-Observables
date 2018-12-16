@@ -31,9 +31,10 @@ export class HTTP {
 class Story {
 
     public static BASE_URL = 'https://jsonplaceholder.typicode.com/posts/';
-    public http: HTTP = new HTTP();
     public spinnerElement: HTMLElement = document.createElement('div');
     public storyElement: HTMLElement = document.createElement('div');
+
+    public http: HTTP = new HTTP();
 
     constructor() {
         this.spinnerElement.innerHTML =
