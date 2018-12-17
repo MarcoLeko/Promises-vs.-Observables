@@ -32,7 +32,6 @@ class Story {
 
     public static BASE_URL = 'https://jsonplaceholder.typicode.com/posts/';
     public spinnerElement: HTMLElement = document.createElement('div');
-    public storyElement: HTMLElement = document.createElement('div');
 
     public http: HTTP = new HTTP();
 
@@ -41,7 +40,6 @@ class Story {
             `<svg class="spinner" viewBox="0 0 100 100" width="20" height="20">
                 <circle cx="50" cy="50" r="42" transform="rotate(-90,50,50)" />
              </svg>`;
-        document.body.appendChild(this.storyElement);
         document.body.appendChild(this.spinnerElement);
     }
 
@@ -60,12 +58,16 @@ class Story {
             content = [content];
         }
 
-        content.forEach(elm =>
-            this.storyElement.innerHTML +=
-                `<h1>${elm.title}</h1>
-                     <div class="story-info"><i>ID: Post-${elm.id}</i></div>
-                 <div><p>${elm.body}.</p></div>`
-        );
+        content.forEach(elm => {
+            const storySnippet = document.createElement('div');
+            storySnippet.innerHTML = `<h1>${elm.title}</h1>
+                           <div class="story-info">
+                               <i>ID: Post-${elm.id}</i>
+                           </div>
+                           <p>${elm.body}.</p>`;
+            document.body.insertBefore(storySnippet, this.spinnerElement);
+        });
+
     }
 
     public displayFinished(): void {
