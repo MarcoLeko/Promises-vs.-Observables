@@ -28,7 +28,7 @@ export class HTTP {
     }
 }
 
-class Story {
+export class Story {
 
     public static BASE_URL = 'https://jsonplaceholder.typicode.com/posts/';
     public spinnerElement: HTMLElement = document.createElement('div');
@@ -40,6 +40,7 @@ class Story {
             `<svg class="spinner" viewBox="0 0 100 100" width="20" height="20">
                 <circle cx="50" cy="50" r="42" transform="rotate(-90,50,50)" />
              </svg>`;
+
         document.body.appendChild(this.spinnerElement);
     }
 
@@ -61,10 +62,11 @@ class Story {
         content.forEach(elm => {
             const storySnippet = document.createElement('div');
             storySnippet.innerHTML = `<h1>${elm.title}</h1>
-                           <div class="story-info">
-                               <i>ID: Post-${elm.id}</i>
-                           </div>
-                           <p>${elm.body}.</p>`;
+                                      <div class="story-info">
+                                          <i>ID: Post-${elm.id}</i>
+                                      </div>
+                                      <p>${elm.body}.</p>`;
+
             document.body.insertBefore(storySnippet, this.spinnerElement);
         });
 
@@ -76,6 +78,7 @@ class Story {
     }
 }
 
+/*** Execution **/
 const story = new Story();
 
 story.getAllStories()
@@ -111,29 +114,3 @@ Promise.race(chapters).then((response) =>
 ).finally(() =>
     story.displayFinished()
 );
-
-async function getFirstSections() {
-    try {
-        for (const n of [1, 2, 3]) {
-            story.spawn(await story.getChapter(n));
-        }
-    } finally {
-        story.displayFinished();
-    }
-}
-
-getFirstSections();
-
-async function getFirstSectionsInParallel() {
-    try {
-        const promises = [];
-
-        [1, 2, 3].forEach(n => promises.push(story.getChapter(n)));
-
-        story.spawn(await Promise.all(promises));
-    } finally {
-        story.displayFinished();
-    }
-}
-
-getFirstSectionsInParallel();
