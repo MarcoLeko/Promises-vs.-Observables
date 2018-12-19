@@ -63,14 +63,14 @@ export class Story {
         }
 
         content.forEach(elm => {
-            const storySnippet = document.createElement('div');
-            storySnippet.innerHTML = `<h1>${elm.title}</h1>
+            const snippet = document.createElement('div');
+            snippet.innerHTML = `<h1>${elm.title}</h1>
                                       <div class="story-info">
                                           <i>ID: Post-${elm.id}</i>
                                       </div>
                                       <p>${elm.body}.</p>`;
 
-            document.body.insertBefore(storySnippet, this.spinnerElement);
+            document.body.insertBefore(snippet, this.spinnerElement);
         });
 
     }

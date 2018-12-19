@@ -44,14 +44,14 @@ function spawn(content): void {
     }
 
     content.forEach(elm => {
-        const story = document.createElement('div');
-        story.innerHTML = `<h1>${elm.title}</h1>
+        const snippet = document.createElement('div');
+        snippet.innerHTML = `<h1>${elm.title}</h1>
                            <div class="story-info">
                                <i>ID: Post-${elm.id}</i>
                            </div>
                            <p>${elm.body}.</p>`;
 
-        document.body.insertBefore(story, loadingIcon);
+        document.body.insertBefore(snippet, loadingIcon);
     });
 }
 
