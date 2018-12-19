@@ -31,19 +31,22 @@ export class HTTP {
 export class Story {
 
     public static BASE_URL = 'https://jsonplaceholder.typicode.com/posts/';
-    public spinnerElement: HTMLElement = document.createElement('div');
+    public spinnerElement: HTMLElement;
 
     public http: HTTP = new HTTP();
 
     constructor() {
-        this.spinnerElement.innerHTML =
-            `<svg class="spinner" viewBox="0 0 100 100" width="20" height="20">
+        this.spinnerElement = createElm(`<svg class="spinner" viewBox="0 0 100 100" width="20" height="20">
                 <circle cx="50" cy="50" r="42" transform="rotate(-90,50,50)" />
-             </svg>`;
-
-        document.body.appendChild(this.spinnerElement);
+             </svg>`);
     }
 
+    public static createElement(innerHTML: string): HTMLElement {
+        const div = document.createElement('div');
+        div.innerHTML = innerHTML;
+        document.body.appendChild(div);
+        return div;
+    }
     public getAllStories(): Promise<string> {
         return this.http.makeRequest(Story.BASE_URL);
     }
@@ -74,7 +77,7 @@ export class Story {
 
     public displayFinished(): void {
         this.spinnerElement.style.display = 'none';
-        document.body.innerHTML += '<div>All done!</div>';
+        Story.createElement('<div>All done!</div>');
     }
 }
 

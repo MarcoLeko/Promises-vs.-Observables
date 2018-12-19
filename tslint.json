@@ -20,7 +20,8 @@
         "ordered-imports": false,
         "no-angle-bracket-type-assertion": false,
         "no-empty": false,
-        "prefer-for-of": false
+        "prefer-for-of": false,
+        "member-ordering": false
     },
     "rulesDirectory": []
 }
