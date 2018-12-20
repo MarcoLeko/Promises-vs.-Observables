@@ -44,10 +44,10 @@ function spawn(content: any): void {
     content.forEach(elm => {
         const snippet = document.createElement('div');
         snippet.innerHTML = `<h1>${elm.title}</h1>
-                           <div class="story-info">
-                               <i>ID: Post-${elm.id}</i>
-                           </div>
-                           <p>${elm.body}.</p>`;
+                             <div class="story-info">
+                                <i>ID: Post-${elm.id}</i>
+                             </div>
+                             <p>${elm.body}.</p>`;
 
         document.body.insertBefore(snippet, loadingIcon);
     });
@@ -59,7 +59,7 @@ function catchError(err: Error) {
 
 function displayFinished(): void {
     loadingIcon.style.display = 'none';
-    createElm('<div>All done!</div>');
+    createElm('All done!');
 }
 
 /*** Execution **/

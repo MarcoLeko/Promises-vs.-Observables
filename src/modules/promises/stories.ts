@@ -64,10 +64,10 @@ export class Story {
         content.forEach(elm => {
             const snippet = document.createElement('div');
             snippet.innerHTML = `<h1>${elm.title}</h1>
-                                      <div class="story-info">
-                                          <i>ID: Post-${elm.id}</i>
-                                      </div>
-                                      <p>${elm.body}.</p>`;
+                                 <div class="story-info">
+                                     <i>ID: Post-${elm.id}</i>
+                                 </div>
+                                 <p>${elm.body}.</p>`;
 
             document.body.insertBefore(snippet, this.spinnerElement);
         });
@@ -76,7 +76,7 @@ export class Story {
 
     public displayFinished(): void {
         this.spinnerElement.style.display = 'none';
-        Story.createElm('<div>All done!</div>');
+        Story.createElm('All done!');
     }
 }
 
