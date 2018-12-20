@@ -1,10 +1,10 @@
-function makeRequest(url: string, onSuccess: (val: object) => void, onFailure?: (val: Error) => void): void {
+function makeRequest(url: string, onSuccess: (val: any) => void, onFailure?: (val: Error) => void): void {
     const req = new XMLHttpRequest();
     req.open('GET', url);
 
     req.onload = () => {
         if (req.status === 200) {
-            fakeLatency(() => onSuccess(req.response));
+            fakeLatency(() => onSuccess(JSON.parse(req.response)));
         }
     };
 
@@ -13,7 +13,7 @@ function makeRequest(url: string, onSuccess: (val: object) => void, onFailure?: 
     req.send();
 }
 
-function fakeLatency(callback): void {
+function fakeLatency(callback: () => void): void {
     setTimeout(callback, 3000 * Math.random());
 }
 
@@ -28,17 +28,15 @@ function createElm(innerHTML: string): HTMLElement {
     return div;
 }
 
-function getAllStories(callback): void {
-    makeRequest(baseUrl(), callback);
+function getAllChapters(onSuccess: (val: any) => void, onFailure?: (err: Error) => void): void {
+    makeRequest(baseUrl(), onSuccess, onFailure);
 }
 
-function getChapter(chapter: number, onSuccess, onFailure?): void {
+function getChapter(chapter: number, onSuccess: (val: any) => void, onFailure?: (err: Error) => void): void {
     makeRequest(baseUrl() + chapter.toString(), onSuccess, onFailure);
 }
 
-function spawn(content): void {
-    content = JSON.parse(content);
-
+function spawn(content: any): void {
     if (content instanceof Array === false) {
         content = [content];
     }
@@ -55,8 +53,8 @@ function spawn(content): void {
     });
 }
 
-function catchError(err) {
-    document.body.innerHTML += `Ooops! Error Occurred! ${err}`;
+function catchError(err: Error) {
+    createElm(`Ooops! Error Occurred! ${err}`);
 }
 
 function displayFinished(): void {
@@ -69,22 +67,9 @@ const loadingIcon = createElm(`<svg class="spinner" viewBox="0 0 100 100" width=
                         <circle cx="50" cy="50" r="42" transform="rotate(-90,50,50)" />
                     </svg>`);
 
-getAllStories(response => {
+getAllChapters(function(response) {
     spawn(response);
     displayFinished();
-});
-
-/*** Before Ecmascript 6 **/
-
-getChapter(1, function (response1) {
-    spawn(response1);
-    getChapter(2, function (response2) {
-        spawn(response2);
-        getChapter(3, function (response3) {
-            spawn(response3);
-            displayFinished();
-        });
-    });
 });
 
 getChapter(1, function(response1) {
@@ -94,35 +79,17 @@ getChapter(1, function(response1) {
         getChapter(3, function(response3) {
             spawn(response3);
             displayFinished();
-        }, function(err3) {
-            catchError(err3);
-        });
-    }, function(err2) {
-        catchError(err2);
-    });
-}, function(err1) {
-    catchError(err1);
-});
-
-/*** With Ecmascript 6 and after **/
-getChapter(1, response1 => {
-    spawn(response1);
-    getChapter(2, response2 => {
-        spawn(response2);
-        getChapter(3, response3 => {
-            spawn(response3);
-            displayFinished();
         });
     });
 });
 
-getChapter(1, response1 => {
+getChapter(1, response1 => { // (*)
     spawn(response1);
-    getChapter(2, response2 => {
+    getChapter(2, response2 => { // (**)
         spawn(response2);
-        getChapter(3, response3 => {
+        getChapter(3, response3 => { // (***)
             spawn(response3);
             displayFinished();
-        }, err3 => catchError(err3));
-    }, err2 => catchError(err2));
-}, err1 => catchError(err1));
+        }, err3 => catchError(err3)); // (***)
+    }, err2 => catchError(err2)); // (**)
+}, err1 => catchError(err1)); // (*)

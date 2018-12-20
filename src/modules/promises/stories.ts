@@ -1,6 +1,6 @@
 export class HTTP {
 
-    public makeRequest(url: string): Promise<string> {
+    public makeRequest(url: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const req = new XMLHttpRequest();
             req.open('GET', url);
@@ -8,7 +8,7 @@ export class HTTP {
             req.onload = () => {
                 if (req.status === 200) {
                     this.fakeLatency()
-                        .then(() => resolve(req.response));
+                        .then(() => resolve(JSON.parse(req.response)));
                 } else {
                     reject(Error(req.statusText));
                 }
@@ -36,28 +36,27 @@ export class Story {
     public http: HTTP = new HTTP();
 
     constructor() {
-        this.spinnerElement = createElm(`<svg class="spinner" viewBox="0 0 100 100" width="20" height="20">
+        this.spinnerElement = Story.createElm(`<svg class="spinner" viewBox="0 0 100 100" width="20" height="20">
                 <circle cx="50" cy="50" r="42" transform="rotate(-90,50,50)" />
              </svg>`);
     }
 
-    public static createElement(innerHTML: string): HTMLElement {
+    public static createElm(innerHTML: string): HTMLElement {
         const div = document.createElement('div');
         div.innerHTML = innerHTML;
         document.body.appendChild(div);
         return div;
     }
-    public getAllStories(): Promise<string> {
+
+    public getAllStories(): Promise<any> {
         return this.http.makeRequest(Story.BASE_URL);
     }
 
-    public getChapter(chapter: number): Promise<string> {
+    public getChapter(chapter: number): Promise<any> {
         return this.http.makeRequest(Story.BASE_URL + chapter.toString());
     }
 
     public spawn(content): void {
-        content = JSON.parse(content);
-
         if (content instanceof Array === false) {
             content = [content];
         }
@@ -77,7 +76,7 @@ export class Story {
 
     public displayFinished(): void {
         this.spinnerElement.style.display = 'none';
-        Story.createElement('<div>All done!</div>');
+        Story.createElm('<div>All done!</div>');
     }
 }
 
@@ -85,10 +84,12 @@ export class Story {
 const story = new Story();
 
 story.getAllStories()
-    .then((response: XMLHttpRequestResponseType) => story.spawn(response))
-    .finally(() => {
-        story.displayFinished();
-    });
+    .then((response: XMLHttpRequestResponseType) =>
+        story.spawn(response)
+    )
+    .finally(() =>
+        story.displayFinished()
+    );
 
 story.getChapter(1).then((response1: XMLHttpRequestResponseType) => // (*)
     story.spawn(response1)
@@ -100,7 +101,7 @@ story.getChapter(1).then((response1: XMLHttpRequestResponseType) => // (*)
     story.displayFinished()
 );
 
-const chapters: Array<Promise<string>> = [];
+const chapters: Array<Promise<any>> = [];
 
 for (const n of [1, 2, 3]) {
     chapters.push(story.getChapter(n));
