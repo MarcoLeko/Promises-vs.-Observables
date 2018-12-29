@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/callbacks/stories.ts',
+    entry: './src/modules/async-await/stories.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',
