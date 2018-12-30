@@ -23,3 +23,11 @@ async function helloWorldFailure() {
 }
 
 helloWorldFailure();
+
+async function fn() {
+    const result = await Promise.resolve('foo');
+    console.log(result);
+}
+
+fn();
+console.log('bar');
