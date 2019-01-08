@@ -1,8 +1,9 @@
-import {filter, map, publish, reduce, take} from 'rxjs/operators';
-import * as RxJS from 'rxjs';
-import {Observable} from 'rxjs/internal/Observable';
 import {ConnectableObservable} from 'rxjs/internal/observable/ConnectableObservable';
+import {filter, map, publish, reduce} from 'rxjs/operators';
+import {Observable} from 'rxjs/internal/Observable';
+import {from} from 'rxjs/internal/observable/from';
 import {Observer} from 'rxjs/internal/types';
+import * as RxJS from 'rxjs';
 
 const observer: Observer<number> = {
     next: x => console.log('Value: ', x),
@@ -45,6 +46,19 @@ setTimeout(() => infinite.subscribe(v => console.log('1st subscriber:', v)), 200
 setTimeout(() => infinite.subscribe(v => console.log('2nd subscriber: ', v)), 3000);
 
 /*** Operators **/
+function multiplyByTen(input: Observable<number>): Observable<number> {
+    return RxJS.Observable.create(function subscribe(obs) {
+        input.subscribe(val => obs.next(val * 10),
+            err => obs.error(err),
+            () => obs.complete()
+        );
+    });
+}
+
+const observable = from([1, 2, 3, 4]);
+const output = multiplyByTen(observable);
+output.subscribe(res => console.log(res));
+
 const source = ['1', '2', '5', 'foo', '13', '17', 'bar'];
 
 console.log(source);
@@ -56,14 +70,9 @@ const result = source
 
 console.log(result);
 
-const source$ = RxJS.interval(800).pipe(
-    take(7), map(val => source[val])
-);
-
-const result$ = source$.pipe(
+const result$ = from(source).pipe(
     map(val => parseInt(val, 10)),
     filter(num => !isNaN(num)),
     reduce((previous: number, current: number) => previous + current));
 
-source$.subscribe(res => console.log(res));
 result$.subscribe(res => console.log(res));
