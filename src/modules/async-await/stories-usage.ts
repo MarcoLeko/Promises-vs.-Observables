@@ -1,5 +1,7 @@
 import {Story} from '../promises/stories';
 
+/*** Execution **/
+
 const story = new Story();
 
 async function getFirstSections() {
