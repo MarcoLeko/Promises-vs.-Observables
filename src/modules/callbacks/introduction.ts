@@ -21,14 +21,3 @@ function isEven(x): boolean {
 
 const evenNumbers = numbers.filter(isEven);
 console.log(evenNumbers);
-
-/*** Classic **/
-const newArr = [];
-
-for (let i = 0; i < numbers.length; i++) {
-    if (numbers[i] % 2 === 0) {
-        newArr.push(numbers[i]);
-    }
-}
-
-console.log(newArr);
