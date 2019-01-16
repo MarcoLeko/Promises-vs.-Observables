@@ -1,3 +1,17 @@
+setTimeout(function() {
+    console.log('second');
+}, 0);
+
+let num: number = 0;
+
+while (num < 100000000) {
+    num = num + 1;
+}
+
+console.log('first');
+// first
+// second
+
 const numbers: number[] = [1, 2, 3, 4, 5, 6];
 
 /*** Functional **/

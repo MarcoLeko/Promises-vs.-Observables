@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/rxjs/introduction.ts',
+    entry: './src/modules/callbacks/introduction.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',
