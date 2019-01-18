@@ -6,6 +6,7 @@ function h(z: string): void {
 function g(y: string): void {
     h(y + 'c'); // (B)
 }
+
 function f(x: string): void {
     g(x + 'b'); // (C)
 }

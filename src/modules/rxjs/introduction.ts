@@ -2,7 +2,7 @@ import * as RxJS from 'rxjs';
 import {async} from 'rxjs/internal/scheduler/async';
 import {from} from 'rxjs/internal/observable/from';
 import {Observable} from 'rxjs/internal/Observable';
-import {filter, map, observeOn, publish, reduce} from 'rxjs/operators';
+import {filter, map, observeOn, publish, reduce, shareReplay} from 'rxjs/operators';
 import {Observer} from 'rxjs/internal/types';
 import {ConnectableObservable} from 'rxjs/internal/observable/ConnectableObservable';
 
@@ -34,19 +34,19 @@ const randomNumber = new Observable<number>(obs => {
 randomNumber.subscribe(value => console.log('1st subscription emits: ', value));
 randomNumber.subscribe(value => console.log('2nd subscription emits: ', value));
 
-const multicast = randomNumber.pipe(publish());
+const multicast = randomNumber.pipe(shareReplay());
 
 multicast.subscribe(value => console.log('1st subscription emits: ', value));
 multicast.subscribe(value => console.log('2nd subscription emits: ', value));
 
-/*** hot vs cold observables **/
+ /*** hot vs cold observables **/
 const infinite = RxJS.interval(1000).pipe(publish()) as ConnectableObservable<number>;
 
 infinite.connect();
 setTimeout(() => infinite.subscribe(v => console.log('1st subscriber:', v)), 2000);
 setTimeout(() => infinite.subscribe(v => console.log('2nd subscriber: ', v)), 3000);
 
-/*** Operators **/
+ /*** Operators **/
 function multiplyByTen(input: Observable<number>): Observable<number> {
     return RxJS.Observable.create(function subscribe(obs) {
         input.subscribe(val => obs.next(val * 10),
@@ -78,7 +78,7 @@ const result$ = from(source).pipe(
 
 result$.subscribe(res => console.log(res));
 
-/*** Subjects **/
+ /*** Subjects **/
 const subject = new RxJS.Subject();
 
 subject.subscribe({
@@ -90,6 +90,14 @@ subject.subscribe({
 
 subject.next(1);
 subject.next(2);
+
+const subject = new RxJS.Subject();
+
+subject.subscribe(v1 => console.log('ObserverA: ', v1));
+subject.subscribe(v2 => console.log('ObserverB: ', v2));
+
+const source = RxJS.from([1, 2, 3]);
+source.subscribe(subject);
 
 const behaviour = new RxJS.BehaviorSubject(0);
 
@@ -106,7 +114,7 @@ behaviour.subscribe({
 
 behaviour.next(3);
 
-const replay = new RxJS.ReplaySubject(3);
+const replay = new RxJS.ReplaySubject(2);
 
 replay.subscribe({
     next: (v) => console.log('observerA: ', v)
@@ -115,13 +123,12 @@ replay.subscribe({
 replay.next(1);
 replay.next(2);
 replay.next(3);
-replay.next(4);
 
 replay.subscribe({
     next: (v) => console.log('observerB: ', v)
 });
 
-replay.next(5);
+replay.next(4);
 
 const asyncSubject = new RxJS.AsyncSubject();
 
@@ -133,7 +140,7 @@ asyncSubject.next(1);
 asyncSubject.next(2);
 asyncSubject.complete();
 
-/*** Schedulers **/
+ /*** Schedulers **/
 
 const scheduled = RxJS.Observable.create((obs) => {
     obs.next(1);
