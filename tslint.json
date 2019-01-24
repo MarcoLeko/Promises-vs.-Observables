@@ -21,7 +21,8 @@
         "no-angle-bracket-type-assertion": false,
         "no-empty": false,
         "prefer-for-of": false,
-        "member-ordering": false
+        "member-ordering": false,
+        "array-type": false
     },
     "rulesDirectory": []
 }

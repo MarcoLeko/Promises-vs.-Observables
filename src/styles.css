@@ -50,7 +50,6 @@ h1 {
 .center {
     display: table-cell;
     text-align: center;
-    vertical-align: middle;
 }
 
 .form-control {
@@ -64,4 +63,54 @@ h1 {
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     margin-left: auto;
     margin-right: auto;
+}
+
+.searchResults {
+    padding: 20px 50px;
+    display: table-cell;
+}
+
+.resultItem {
+    opacity: 0;
+    margin-bottom: 20px;
+    animation: show 0.5s forwards ease-in-out;
+    color: white;
+    border-radius: 2px;
+    padding: 10px;
+    width: 100%;
+    background: grey;
+}
+
+.resultItem:hover {
+    background-color: #434343;
+}
+
+.resultItem-title {
+    margin-bottom: 4px;
+}
+
+.resultItem-title a {
+    color: white;
+    text-decoration: none;
+}
+
+.resultItem-title a:hover {
+    text-decoration: underline;
+}
+
+.resultItem-snippet, .resultItem-link {
+    color: #c2c2c2;
+    font-size: 13px;
+}
+
+@keyframes show {
+    0% {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
