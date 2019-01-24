@@ -7,8 +7,9 @@ export class HTTP {
 
             req.onload = () => {
                 if (req.status === 200) {
-                    this.fakeLatency()
-                        .then(() => resolve(JSON.parse(req.response)));
+                    this.fakeLatency().then(() =>
+                            resolve(JSON.parse(req.response))
+                        );
                 } else {
                     reject(Error(req.statusText));
                 }
