@@ -22,7 +22,8 @@
         "no-empty": false,
         "prefer-for-of": false,
         "member-ordering": false,
-        "array-type": false
+        "array-type": false,
+        "no-consecutive-blank-lines": false
     },
     "rulesDirectory": []
 }
