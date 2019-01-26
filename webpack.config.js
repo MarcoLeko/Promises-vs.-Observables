@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/rxjs/wikipedia-search.ts',
+    entry: './src/modules/promises/stories-usage.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',

@@ -14,13 +14,13 @@ searchResult.className = 'searchResults';
 wikipediaSearch.appendChild(searchResult);
 
 /*** Functional Logic of autocomplete **/
-function searchWikipedia(query: string) {
+function searchWikipedia(query: string): Promise<any> {
     return fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${query}`)
         .then(data => data.json())
         .then(results => results.query.search);
 }
 
-function insertArticle(article: any) {
+function insertArticle(article: any): void {
     const url = encodeURI(`https://en.wikipedia.org/wiki/${article.title}`);
 
     searchResult.insertAdjacentHTML('beforeend',
