@@ -14,7 +14,7 @@ export interface FakeHttpResponse {
     message: string;
 }
 
-const pendingPromise = new Promise<FakeHttpResponse>((resolve, reject) => {
+const pendingPromise = new Promise<FakeHttpResponse>((resolve) => {
     setTimeout(() => {
         resolve({
             code: '200',
@@ -24,4 +24,4 @@ const pendingPromise = new Promise<FakeHttpResponse>((resolve, reject) => {
 });
 
 console.log(pendingPromise);
-setTimeout(() => console.log(pendingPromise), 10 * 1000);
+pendingPromise.then((fakeResponse) => console.log(fakeResponse));
