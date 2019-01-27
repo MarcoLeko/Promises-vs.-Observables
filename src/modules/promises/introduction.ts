@@ -1,27 +1,59 @@
-const keepsHisWord = true;
-const resolveRightAway = new Promise((resolve, reject) => {
-    if (keepsHisWord) {
-        resolve('Promises kept!');
-    } else {
-        reject('Promise NOT kept!');
-    }
-});
+/*** Callback **/
+// function getA(callback) {
+//     return setTimeout(() => callback('a'), 100);
+// }
+//
+// function getB(callback) {
+//     return setTimeout(() => callback('b'), 200);
+// }
+//
+// function getC(callback) {
+//     return setTimeout(() => callback('c'), 300);
+// }
+//
+// getA(a =>
+//     getB(b =>
+//         getC(c => console.log(a + b + c))
+//     )
+// );
 
-console.log(resolveRightAway);
+/*** Promises **/
+function getA(): Promise<string> {
+    return new Promise(resolve =>
+        setTimeout(() => resolve('a'), 100));
+}
+
+function getB(): Promise<string> {
+    return new Promise(resolve =>
+        setTimeout(() => resolve('b'), 100));
+}
+
+function getC(): Promise<string> {
+    return new Promise(resolve =>
+        setTimeout(() => resolve('c'), 100));
+}
+
+getA()
+    .then((a: string) => getB().then(b => a + b))
+    .then((ab: string) => getC().then(c => ab + c))
+    .then((result: string) => console.log(result));
+
 
 export interface FakeHttpResponse {
     code: string;
     message: string;
 }
 
-const pendingPromise = new Promise<FakeHttpResponse>((resolve) => {
+const rejectedPromise = new Promise<FakeHttpResponse>((resolve, reject) => {
     setTimeout(() => {
-        resolve({
-            code: '200',
-            message: 'Promise kept!'
+        reject({
+            code: '404',
+            message: 'Not Found!'
         });
-    }, 10 * 1000);
+    }, 1000);
 });
 
-console.log(pendingPromise);
-pendingPromise.then((fakeResponse) => console.log(fakeResponse));
+rejectedPromise.catch((fakeResponse) => {
+    console.log(fakeResponse);
+    console.log(rejectedPromise);
+});
