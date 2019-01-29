@@ -7,6 +7,7 @@ getAllChapters(function(response) {
     displayFinished();
 });
 
+console.log('before execution');
 getChapter(1, function(response1) {
     spawn(response1);
     getChapter(2, function(response2) {
@@ -17,6 +18,8 @@ getChapter(1, function(response1) {
         });
     });
 });
+console.log('after execution');
+
 
 getChapter(1, response1 => { // (*)
     spawn(response1);
