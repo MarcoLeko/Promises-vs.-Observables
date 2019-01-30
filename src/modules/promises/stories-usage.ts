@@ -54,5 +54,6 @@ story.getChapter(1)
         return story.getChapter(2);
     })
     .then((response2) => story.spawn(response2))
-    .then(() => story.getChapter(3).then(response3 => story.spawn(response3)))
+    .then(() => story.getChapter(3))
+    .then(response3 => story.spawn(response3))
     .finally(() => story.displayFinished());
