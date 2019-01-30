@@ -4,7 +4,6 @@ import {Story} from './stories';
 
 const story = new Story();
 
-
 story.getAllStories()
     .then((response: XMLHttpRequestResponseType) =>
         story.spawn(response)

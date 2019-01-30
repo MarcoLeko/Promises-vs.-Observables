@@ -1,10 +1,11 @@
 const path = require('path');
 
-/*** Define the source file within the Object below via the entry property. **/
+/*** Define the source file within the Object below via the entry property.
+ *   e.g. entry: './src/modules/callbacks/introduction.ts' **/
 
 module.exports = {
     mode: 'development',
-    entry: './src/modules/callbacks/stories-usage.ts',
+    entry: './src/modules/rxjs/wikipedia-search.ts',
     devtool: 'inline-source-map',
     output: {
         filename: 'main.js',

@@ -1,5 +1,5 @@
 function h(z: string): void {
-    console.log(z); // (A)
+    console.log(z);
     console.log(new Error().stack); // (A)
 }
 
