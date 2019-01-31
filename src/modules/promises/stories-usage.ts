@@ -5,12 +5,8 @@ import {Story} from './stories';
 const story = new Story();
 
 story.getAllStories()
-    .then((response: XMLHttpRequestResponseType) =>
-        story.spawn(response)
-    )
-    .finally(() =>
-        story.displayFinished()
-    );
+    .then((response: XMLHttpRequestResponseType) => story.spawn(response))
+    .finally(() => story.displayFinished());
 
 console.time('Promise-Verkettung');
 story.getChapter(1) // (*)
@@ -24,26 +20,24 @@ story.getChapter(1) // (*)
         console.timeEnd('Promise-Verkettung');
     });
 
-const chapters: Array<Promise<any>> = [];
+const chapters: Array<Promise<XMLHttpRequestResponseType>> = [];
 
 for (const n of [1, 2, 3]) {
     chapters.push(story.getChapter(n));
 }
 
 console.time('Promise-all');
-Promise.all(chapters).then((response) =>
-    story.spawn(response)
-).finally(() => {
+Promise.all(chapters)
+    .then((response: Array<XMLHttpRequestResponseType>) => story.spawn(response))
+    .finally(() => {
     story.displayFinished();
     console.timeEnd('Promise-all');
 });
 
 
-Promise.race(chapters).then((response) =>
-    story.spawn(response)
-).finally(() =>
-    story.displayFinished()
-);
+Promise.race(chapters)
+    .then((response: XMLHttpRequestResponseType) => story.spawn(response))
+    .finally(() => story.displayFinished());
 
 story.getChapter(1)
     .then(() => {
